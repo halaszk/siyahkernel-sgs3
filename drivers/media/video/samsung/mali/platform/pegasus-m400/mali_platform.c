@@ -58,7 +58,7 @@ typedef struct mali_runtime_resumeTag{
 	int vol;
 }mali_runtime_resume_table;
 
-mali_runtime_resume_table mali_runtime_resume = {160, 850000};
+mali_runtime_resume_table mali_runtime_resume = {266, 900000};
 
 /* lock/unlock CPU freq by Mali */
 extern int cpufreq_lock_by_mali(unsigned int freq);
@@ -76,8 +76,8 @@ static struct clk  *mali_clock = 0;
 
 static unsigned int GPU_MHZ	= 1000000;
 
-int mali_gpu_clk = 160;
-int mali_gpu_vol = 850000;
+int mali_gpu_clk = 266;
+int mali_gpu_vol = 900000;
 
 #if MALI_DVFS_ENABLED
 #define MALI_DVFS_DEFAULT_STEP 0
@@ -113,10 +113,6 @@ extern struct platform_device s5pv310_device_pd[];
 extern struct platform_device exynos4_device_pd[];
 #endif
 #endif
-
-/*This code for reference value of GPU activation*/
-int activity_index = -1;
-EXPORT_SYMBOL(activity_index);
 
 mali_io_address clk_register_map=0;
 
@@ -711,12 +707,8 @@ _mali_osk_errcode_t mali_platform_powerup(u32 cores)
 	MALI_SUCCESS;
 }
 
-/*This code for reference value of GPU activation*/
 void mali_gpu_utilization_handler(u32 utilization)
 {
-	/*printk("[TEST] GPU_UTILIZATION:%d per 1sec.", utilization);*/
-	activity_index = utilization;
-
 	if (bPoweroff==0)
 	{
 #if MALI_DVFS_ENABLED

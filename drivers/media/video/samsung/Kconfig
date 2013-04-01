@@ -122,4 +122,3 @@ config VIDEO_SAMSUNG_MEMSIZE_TVOUT
 	depends on VIDEO_TVOUT
 	default "16384"
 endif
-

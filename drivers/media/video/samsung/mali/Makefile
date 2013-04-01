@@ -50,7 +50,7 @@ USING_GPU_UTILIZATION=1
 USING_MALI_DVFS_ENABLED=1
 endif
 
-ifeq ($(CONFIG_VIDEO_MALI400MP_UMP_DEBUG),y)
+ifeq ($(CONFIG_VIDEO_MALI400MP_DEBUG),y)
 BUILD=debug
 endif
 
@@ -128,7 +128,7 @@ endif
 DEFINES += -DMALI_UKK_HAS_IMPLICIT_MMAP_CLEANUP
 
 # UMP
-ifeq ($(CONFIG_VIDEO_MALI400MP_UMP),y)
+ifeq ($(CONFIG_VIDEO_UMP),y)
 	DEFINES += -DMALI_USE_UNIFIED_MEMORY_PROVIDER=1 -DHAVE_UNLOCKED_IOCTL
 	EXTRA_CFLAGS += -I$(MALI_FILE_PREFIX)/../ump/include
 else
@@ -136,7 +136,7 @@ else
 endif
 
 # Target build file
-obj-$(CONFIG_VIDEO_MALI400MP_UMP)	+= mali.o
+obj-$(CONFIG_VIDEO_MALI400MP)		+= mali.o
 
 # Use our defines when compiling
 # MALI
@@ -154,7 +154,7 @@ EXTRA_CFLAGS += -I$(MALI_FILE_PREFIX)/linux/license/gpl
 EXTRA_CFLAGS += -I$(MALI_FILE_PREFIX)/common/pmm
 
 # Source files which always are included in a build
-ifeq ($(CONFIG_VIDEO_MALI400MP_UMP),y)
+ifeq ($(CONFIG_VIDEO_UMP),y)
 OSKFILES=\
         $(FILES_PREFIX)$(OSKOS)/mali_osk_irq.o \
         $(FILES_PREFIX)$(OSKOS)/mali_osk_low_level_mem.o \
@@ -175,7 +175,7 @@ OSKFILES=\
         $(FILES_PREFIX)$(OSKOS)/mali_osk_notification.o \
         $(FILES_PREFIX)$(OSKOS)/mali_osk_time.o \
         $(FILES_PREFIX)$(OSKOS)/mali_osk_timers.o
-endif #($(CONFIG_VIDEO_MALI400MP_UMP),y)
+endif #($(CONFIG_VIDEO_UMP),y)
 
 ifeq ($(CONFIG_CPU_EXYNOS4210),y)
 	MALI_PLATFORM_FILE = platform/orion-m400/mali_platform.o
@@ -275,7 +275,8 @@ ifeq ($(PANIC_ON_WATCHDOG_TIMEOUT),1)
 endif
 
 # Get subversion revision number, fall back to 0000 if no svn info is available
-SVN_REV:=$(shell ((svnversion | grep -qv exported && echo -n 'Revision: ' && svnversion) || git svn info | sed -e 's/$$$$/M/' | grep '^Revision: ' || echo ${MALI_RELEASE_NAME}) 2>/dev/null | sed -e 's/^Revision: //')
+#SVN_REV:=$(shell ((svnversion | grep -qv exported && echo -n 'Revision: ' && svnversion) || git svn info | sed -e 's/$$$$/M/' | grep '^Revision: ' || echo ${MALI_RELEASE_NAME}) 2>/dev/null | sed -e 's/^Revision: //')
+SVN=REV:=1
 
 EXTRA_CFLAGS += -DSVN_REV=$(SVN_REV)
 EXTRA_CFLAGS += -DSVN_REV_STRING=\"$(SVN_REV)\"
