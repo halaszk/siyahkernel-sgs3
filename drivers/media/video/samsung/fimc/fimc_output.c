@@ -2814,7 +2814,7 @@ int fimc_qbuf_output(void *fh, struct v4l2_buffer *b)
 		fimc_err("%s: Y address is not CMA region 0x%x, %d \n",
 				__func__, buf->base[FIMC_ADDR_Y], y_size);
 		return -EINVAL;
-	}
+	}*/
 	if (buf->base[FIMC_ADDR_CB] != 0 && cb_size != 0 &&
 			!cma_is_registered_region(buf->base[FIMC_ADDR_CB], cb_size)) {
 		fimc_err("%s: CB address is not CMA region 0x%x, %d \n",
