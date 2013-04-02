@@ -1325,7 +1325,6 @@ static void sdhci_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
 			regulator_disable(host->vmmc);
 			pr_info("%s : MMC Card OFF %s\n", __func__,
 					host->hw_name);
-			mdelay(5);
 		}
 	} else if (mmc_host_sd_present(mmc) &&
 			!mmc_host_sd_prev_stat(mmc)) {
@@ -2349,7 +2348,6 @@ int sdhci_suspend_host(struct sdhci_host *host, pm_message_t state)
 #endif
 			ret = regulator_disable(host->vmmc);
 			pr_info("%s : MMC Card OFF\n", __func__);
-			mdelay(5);
 		}
 	}
 
@@ -2360,10 +2358,7 @@ EXPORT_SYMBOL_GPL(sdhci_suspend_host);
 
 void sdhci_shutdown_host(struct sdhci_host *host)
 {
-	u32 irqs = 0xFFFF;
-
-	/* all interrupt has to be masked */
-	sdhci_mask_irqs(host, irqs);
+	sdhci_disable_card_detection(host);
 
 	free_irq(host->irq, host);
 
@@ -2375,7 +2370,9 @@ void sdhci_shutdown_host(struct sdhci_host *host)
 #endif
 			regulator_disable(host->vmmc);
 			pr_info("%s : MMC Card OFF\n", __func__);
+#if defined(CONFIG_TARGET_LOCALE_KOR)
 			mdelay(5);
+#endif
 		}
 	}
 }
@@ -2670,9 +2667,8 @@ int sdhci_add_host(struct sdhci_host *host)
 	    mmc_card_is_removable(mmc))
 		mmc->caps |= MMC_CAP_NEEDS_POLL;
 
-	/* Any UHS-I mode in caps implies SDR12 and SDR25 support. */
-	if (caps[1] & (SDHCI_SUPPORT_SDR104 | SDHCI_SUPPORT_SDR50 |
-		       SDHCI_SUPPORT_DDR50))
+	/* UHS-I mode(s) supported by the host controller. */
+	if (host->version >= SDHCI_SPEC_300)
 		mmc->caps |= MMC_CAP_UHS_SDR12 | MMC_CAP_UHS_SDR25;
 
 	/* SDR104 supports also implies SDR50 support */
