@@ -133,10 +133,13 @@ stat ${KERNELDIR}/boot.img
 cp ${KERNELDIR}/boot.img /${KERNELDIR}/READY/boot/
 cd ${KERNELDIR}/READY/
 GETVER=`grep 'Siyah-.*-V' .config | sed 's/.*".//g' | sed 's/-S.*//g'`
-zip -r Kernel_$GETVER-`date +"-[%H-%M]-[%d-%m]-SGSIII-PWR-CORE"`.zip .
-rm ${KERNELDIR}/boot.img
-rm ${KERNELDIR}/READY/boot/boot.img
-rm ${KERNELDIR}/READY/.config
-mv ${KERNELDIR}/READY/Kernel_* ${KERNELDIR}/SGSIII/
-ncftpput -f /home/halaszk/login.cfg -V -R / ${KERNELDIR}/SGSIII/
-rm ${KERNELDIR}/SGSIII/Kernel_*
+        zip -r Kernel_${GETVER}-`date +"[%H-%M]-[%d-%m]-JB-SGSIII-PWR-CORE"`.zip .
+                read -p "push kernel to ftp (y/n)?"
+                if [ "$REPLY" == "y" ]; then
+			echo "Uploading kernel to FTP server";
+                        ncftpput -f /home/halaszk/login.cfg -V -R /SGSIII/ ${KERNELDIR}/READY/Kernel_*JB*.zip;
+                        rm ${KERNELDIR}/READY-JB/Kernel_*JB*.zip;
+			echo "Uploading kernel to FTP server DONE";
+
+                fi;
+
