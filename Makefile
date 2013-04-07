@@ -363,8 +363,8 @@ XX_MODULO   = 	-fmodulo-sched -fmodulo-sched-allow-regmoves
 CFLAGS_MODULE   =
 AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
-CFLAGS_KERNEL	= -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -ftree-vectorize -funsafe-math-optimizations -pipe
-AFLAGS_KERNEL	= -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -ftree-vectorize -funsafe-math-optimizations -pipe 
+CFLAGS_KERNEL	= -mcpu=cortex-a9 -mtune=cortex-a9 -mfpu=neon-vfpv4 -ftree-vectorize -funsafe-math-optimizations -pipe
+AFLAGS_KERNEL	= -mcpu=cortex-a9 -mtune=cortex-a9 -mfpu=neon-vfpv4 -ftree-vectorize -funsafe-math-optimizations -pipe 
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -388,7 +388,7 @@ KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -Werror=strict
 		-fno-delete-null-pointer-checks \
 		-ffast-math \
 		-mfpu=neon-vfpv4 \
-		-mtune=cortex-a15 \
+		-mtune=cortex-a9 \
 		-ftree-vectorize -funsafe-math-optimizations -pipe \
 		 $(XX_A9) $(XX_GRAPHITE) $(XX_MODULO) $(O3_O2) $(Ofast_O3)
 
