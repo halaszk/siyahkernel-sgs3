@@ -363,8 +363,8 @@ XX_MODULO   = 	-fmodulo-sched -fmodulo-sched-allow-regmoves
 CFLAGS_MODULE   =
 AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
-CFLAGS_KERNEL	=
-AFLAGS_KERNEL	=
+CFLAGS_KERNEL	= -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -ftree-vectorize -funsafe-math-optimizations -pipe
+AFLAGS_KERNEL	= -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -ftree-vectorize -funsafe-math-optimizations -pipe 
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -386,12 +386,10 @@ KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -Werror=strict
 		-Werror-implicit-function-declaration \
 		-Wno-format-security \
 		-fno-delete-null-pointer-checks \
-		-pipe \
 		-ffast-math \
-		-mfpu=neon \
-		-march=armv7-a \
-		-mtune=cortex-a9 \
-		-mvectorize-with-neon-quad \
+		-mfpu=neon-vfpv4 \
+		-mtune=cortex-a15 \
+		-ftree-vectorize -funsafe-math-optimizations -pipe \
 		 $(XX_A9) $(XX_GRAPHITE) $(XX_MODULO) $(O3_O2) $(Ofast_O3)
 
 KBUILD_AFLAGS_KERNEL :=
