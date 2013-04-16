@@ -4720,8 +4720,6 @@ int mutex_spin_on_owner(struct mutex *lock, struct task_struct *owner)
 		if (active > 2*ncpu)
 			return 0;
 	}
-
-	rcu_read_lock();
 	
 	while (owner_running(lock, owner)) {
 		if (need_resched())
@@ -4729,7 +4727,6 @@ int mutex_spin_on_owner(struct mutex *lock, struct task_struct *owner)
 
 		arch_mutex_cpu_relax();
 	}
-	rcu_read_unlock();
 
 	/*
 	 * If the owner changed to another task there is likely
